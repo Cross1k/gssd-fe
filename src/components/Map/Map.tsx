@@ -3,6 +3,7 @@ import "maplibre-gl/dist/maplibre-gl.css";
 import { useEffect, useState } from "react";
 import Popup from "reactjs-popup";
 import "reactjs-popup/dist/index.css";
+import { FormControl, InputLabel, MenuItem, Select } from "@mui/material";
 
 const mapUrls = [
   "https://tile.openstreetmap.org.ua/styles/dark-matter-gl-style/style.json",
@@ -45,26 +46,43 @@ const MapComponent = () => {
 
   return (
     <>
-      <Popup trigger={<button className="button">Theme</button>}>
-        {mapStyles.map((t) => (
-          <button
-            className="button"
-            onClick={() => setSelectedStyle(t)}
-            key={t.name}
-          >
-            {t.name}
-          </button>
-        ))}
-      </Popup>
       <Map
         initialViewState={{
           longitude: 34.98,
           latitude: 48.45,
           zoom: 12,
         }}
-        style={{ width: "99dvw", height: "90dvh" }}
+        style={{ width: "100%", height: "85vh" }}
         mapStyle={selectedStyle}
       >
+        <FormControl
+          sx={{
+            m: 1,
+            minWidth: 120,
+            backgroundColor: "white",
+            borderRadius: "10px",
+          }}
+          size="small"
+        >
+          <InputLabel id="demo-simple-select-label">Theme</InputLabel>
+          <Select
+            labelId="demo-simple-select-label"
+            id="demo-simple-select"
+            label="Age"
+            defaultValue={selectedStyle}
+          >
+            {mapStyles.map((t: { name: string; url: string }) => (
+              <MenuItem
+                value={t.url}
+                className="button"
+                onClick={() => setSelectedStyle(t.url)}
+                key={t.name}
+              >
+                {t.name}
+              </MenuItem>
+            ))}
+          </Select>
+        </FormControl>
         <NavigationControl position="top-right" />
       </Map>
     </>
