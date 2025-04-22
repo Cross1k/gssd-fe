@@ -1,7 +1,6 @@
 import Map, { NavigationControl } from "react-map-gl/maplibre";
 import "maplibre-gl/dist/maplibre-gl.css";
 import { useEffect, useState } from "react";
-import Popup from "reactjs-popup";
 import "reactjs-popup/dist/index.css";
 import { FormControl, InputLabel, MenuItem, Select } from "@mui/material";
 
@@ -32,14 +31,15 @@ async function getStyleName(
 }
 
 const MapComponent = () => {
-  const [mapStyles, setMapStyles] = useState([]);
+  const [mapStyles, setMapStyles] = useState<{ name: string; url: string }[]>(
+    []
+  );
   const [selectedStyle, setSelectedStyle] = useState(mapUrls[0]);
 
   useEffect(() => {
     const fetchStylesNames = async () => {
       const styles = await Promise.all(mapUrls.map(getStyleName));
       setMapStyles(styles);
-      //   console.log(styles);
     };
     fetchStylesNames();
   }, []);
